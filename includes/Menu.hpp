@@ -1,0 +1,101 @@
+#ifndef MENU_HPP_
+# define MENU_HPP_
+
+#include <irr/irrlicht.h>
+#include "Event.hpp"
+#include "Game.hpp"
+#include "Tools.hpp"
+
+class Menu
+{
+public:
+  Menu(Event *, irr::video::IVideoDriver *,
+       irr::scene::ISceneManager *, irr::gui::IGUIEnvironment *);
+  ~Menu();
+  void  textureButton(button *button, const char *text);
+  void	initButtonMain();
+  Click	drawMainMenu();
+  Click	drawOptionMenu();
+  Click	drawPlayMenu();
+  Click	drawNameMenu(int nbPlayers);
+  Click	drawSaveMenu();
+  void	initMainMenu();
+  void	initOptionMenu();
+  void	initPlayMenu();
+  void	initNameMenu();
+  void	initSaveMenu();
+  void	dropMenu();
+  void	isName(bool);
+  bool	lunchGame(int, Game &);
+  bool	verif();
+  bool	choicePlayers(Game &);
+  irr::core::stringc	getNameP1();
+  irr::core::stringc	getNameP2();
+  irr::core::stringc	getNameP3();
+  Click mainMenu();
+  void			dropItem(button *b);
+  void			start(Game &game)
+  {
+    while (game.play())
+      {
+	game.initScene();
+	switch (drawMainMenu())
+	  {
+	case Click::PLAY:
+	  choicePlayers(game);
+	  break ;
+	  case Click::OPTION:
+	    game.choiceOption(event);
+	    break ;
+	  case Click::LOAD:
+	  std::cout << "LOAD GAME" << std::endl;
+	  break ;
+	  case Click::QUIT:
+	    game.getDevice()->closeDevice();
+	    break ;
+	  default:
+	    break ;
+	  }
+	game.endScene();
+      }
+
+  }
+private:
+  Event					*event;
+  irr::video::IVideoDriver		*driver;
+  irr::scene::ISceneManager		*smgr;
+  irr::gui::IGUIEnvironment		*env;
+  irr::video::ITexture			*imgMenu;
+  irr::video::ITexture			*imgp1;
+  irr::video::ITexture			*imgp2;
+  irr::video::ITexture			*imgp3;
+  irr::video::ITexture			*imgPause;
+  irr::video::ITexture			*imgGame;
+  irr::core::dimension2d<irr::u32>	sizeM;
+  irr::core::dimension2d<irr::u32>	sizeP;
+  irr::core::dimension2d<irr::u32>	sizeG;
+  irr::core::position2d<irr::s32>	position0;
+  irr::core::position2d<irr::s32>	position1;
+  irr::core::rect<irr::s32>		rectangle;
+  button			*play;
+  button			*playN;
+  button			*quit;
+  button			*option;
+  button			*load;
+  button			*cancelN;
+  button			*cancelP;
+  button			*one;
+  button			*two;
+  button			*three;
+  button			*ia;
+
+  irr::gui::IGUIEditBox			*nameP1;
+  irr::gui::IGUIEditBox			*nameP2;
+  irr::gui::IGUIEditBox			*nameP3;
+  std::vector<irr::core::stringc>	names;
+  bool					b;
+  bool					p;
+  bool					d;
+};
+
+#endif /* MENU_HPP_ */

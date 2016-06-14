@@ -1,0 +1,7 @@
+	IBloc
+	  |
+	Bloc
+	    \
+	     PowerUp
+	    /   |   \
+	   1    2    3 ...
